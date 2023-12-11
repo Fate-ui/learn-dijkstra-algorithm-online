@@ -44,7 +44,6 @@ export class StepNavigateRoute {
         iconSize: [30, 30],
         popupAnchor: [0, -20]
       })
-      // 你可以在 .my-div-icon CSS 中设置样式
       const point = { lat: segmentNode.point.y, lng: segmentNode.point.x }
       const marker = L.marker(point, { icon: myIcon }).addTo(map)
 
