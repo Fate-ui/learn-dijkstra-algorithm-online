@@ -10,7 +10,7 @@ const drawLineRef = ref<InstanceType<typeof DrawLine>>()
 
 const stepNavigateRoute = new StepNavigateRoute()
 const start = lineList[0].start
-const end = lineList.at(-1).end
+const end = lineList.at(6).end
 
 const mapStore = useMapStore()
 watch(
