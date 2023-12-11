@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     plugins: createVitePlugins(),
     esbuild: {
       pure: ['console.log'] // 去除console.log
-    },
+    }
     // css: {
     //   preprocessorOptions: {
     //     scss: {
