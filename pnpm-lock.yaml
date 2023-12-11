@@ -26,9 +26,6 @@ dependencies:
   pinia:
     specifier: ^2.1.7
     version: registry.npmmirror.com/pinia@2.1.7(typescript@5.3.2)(vue@3.3.10)
-  three:
-    specifier: ^0.159.0
-    version: registry.npmmirror.com/three@0.159.0
   vue:
     specifier: ^3.3.10
     version: registry.npmmirror.com/vue@3.3.10(typescript@5.3.2)
@@ -6650,12 +6647,6 @@ packages:
     name: text-table
     version: 0.2.0
     dev: true
-
-  registry.npmmirror.com/three@0.159.0:
-    resolution: {integrity: sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/three/-/three-0.159.0.tgz}
-    name: three
-    version: 0.159.0
-    dev: false
 
   registry.npmmirror.com/tinybench@2.5.1:
     resolution: {integrity: sha512-65NKvSuAVDP/n4CqH+a9w2kTlLReS9vhsAP06MWx+/89nMinJyB2icyl58RIcqCmIggpojIGeuJGhjU1aGMBSg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tinybench/-/tinybench-2.5.1.tgz}
