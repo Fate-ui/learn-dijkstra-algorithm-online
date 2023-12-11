@@ -1,41 +1,20 @@
-import type { IPoint } from '@/utils'
-import { getDistance, isPointEqual } from '@/utils'
-
-export interface ISegment {
-  start: IPoint
-  end: IPoint
-}
-
-export class Node {
-  parent: Node = null
-  cost: number = null
-  id: string
-  point: IPoint
-  children: IGraphChildren[]
-  constructor(segment: IGraph) {
-    this.id = segment.id
-    this.children = segment.children
-    this.point = segment.point
-  }
-}
-
 export class NavigateRoute {
   nodes: Node[] = []
   currentNode: Node
   closeList: Node[] = []
-  path: IPoint[] = []
+
   startPoint: IPoint
   endPoint: IPoint
+
+  path: IPoint[] = []
   constructor() {}
 
   navigate(routeSegments: ISegment[], startPoint: IPoint, endPoint: IPoint) {
-    this.currentNode = null
     this.closeList = []
     this.path = []
     this.startPoint = startPoint
     this.endPoint = endPoint
-
-    if (!routeSegments) return
+    if (!routeSegments.length) return
     const graphList = toGraphStructure(routeSegments)
     const segmentNodes = graphList.map((item) => new Node(item))
     this.nodes = segmentNodes
@@ -60,11 +39,7 @@ export class NavigateRoute {
       }
 
       this.closeList.push(current)
-      this.currentNode = null
-      const path = this.#foundSmallestCostRoute()
-      if (path) {
-        return path
-      }
+      this.#foundSmallestCostRoute()
     }
   }
 
@@ -83,6 +58,7 @@ export class NavigateRoute {
     if (isPointEqual(minCostNode.point, this.endPoint)) {
       const path = this.#generatePath(minCostNode)
       this.path = path
+      this.currentNode = null
       return path
     }
 
@@ -101,6 +77,42 @@ export class NavigateRoute {
     path.reverse()
     return path
   }
+}
+
+export interface ISegment {
+  start: IPoint
+  end: IPoint
+}
+
+export class Node {
+  parent: Node = null
+  cost: number = null
+  id: string
+  point: IPoint
+  children: IGraphChildren[]
+  constructor(segment: IGraph) {
+    this.id = segment.id
+    this.children = segment.children
+    this.point = segment.point
+  }
+}
+
+export interface IPoint {
+  x: number
+  y: number
+  id?: string
+}
+
+export function getDistance(p1: IPoint, p2: IPoint) {
+  const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
+  return Math.floor(distance * 100) / 100
+}
+
+/**
+ * 判断两坐标点是否相等
+ * */
+export function isPointEqual(point1, point2) {
+  return point1.x === point2.x && point1.y === point2.y
 }
 
 interface IGraphChildren {

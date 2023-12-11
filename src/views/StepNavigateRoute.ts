@@ -1,8 +1,7 @@
 import L from 'leaflet'
-import { Node } from './NavigateRoute'
-import type { IPoint } from '@/utils'
+import { Node, isPointEqual } from './NavigateRoute'
+import type { IPoint } from './NavigateRoute'
 import type { ISegment } from '@/views/NavigateRoute'
-import { isPointEqual } from '@/utils'
 import { useMapStore } from '@/store/map'
 import { toGraphStructure } from '@/views/NavigateRoute'
 
@@ -35,7 +34,7 @@ export class StepNavigateRoute {
     const graphList = toGraphStructure(routeSegments)
     const mapStore = useMapStore()
     mapStore.showNextButton = true
-    const map = toRaw(mapStore.map)
+    const map = toRaw(mapStore.map) as L.Map
     const segmentNodes = graphList.map((item) => new Node(item))
 
     for (const [index, segmentNode] of segmentNodes.entries()) {
@@ -72,7 +71,7 @@ export class StepNavigateRoute {
       const nodes = this.nodes.filter((item) => !this.closeList.includes(item) && current.children.some((el) => el.id === item.id))
 
       const mapStore = useMapStore()
-      const map = toRaw(mapStore.map)
+      const map = toRaw(mapStore.map) as L.Map
       const index = this.nodes.findIndex((item) => item.id === current.id)
       mapStore.timelineNodes.push({ content: `将节点${index}作为当前节点，节点代价：${current.cost}` })
       const marker = this.intersectMarkers[index] as L.Marker
@@ -120,7 +119,6 @@ export class StepNavigateRoute {
 
       iconElement.style.backgroundColor = '#ccc'
       this.closeList.push(current)
-      this.currentNode = null
       mapStore.timelineNodes.push({ content: `在遍历完周围所有的节点后将节点${index}加入关闭节点列表中，后续将不再遍历该节点` })
       yield
       const path = this.#foundSmallestCostRoute()
@@ -162,13 +160,14 @@ export class StepNavigateRoute {
       iconElement.style.backgroundColor = '#53e553'
       this.popups.forEach((item) => item.closePopup())
       this.#removeLines()
-      const map = toRaw(mapStore.map)
+      const map = toRaw(mapStore.map) as L.Map
       L.polyline(
         path.map((el) => ({ lat: el.y, lng: el.x })),
         { color: 'red', weight: 5 }
       ).addTo(map)
       mapStore.timelineNodes.push({ content: `找到代价最小的节点${markerIndex}，该节点是终点，停止寻找，追溯该节点的父节点找到最短路径` })
 
+      this.currentNode = null
       mapStore.showNextButton = false
       return path
     }

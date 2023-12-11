@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import L from 'leaflet'
+import { getDistance } from '@/views/NavigateRoute'
 import 'leaflet/dist/leaflet.css'
 import { useMapStore } from '@/store/map'
 import { lineList } from '@/views/DrawLine/segements'
-import { getDistance } from '@/utils'
 
 onMounted(() => {
   init()
