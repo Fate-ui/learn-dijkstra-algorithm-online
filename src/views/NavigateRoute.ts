@@ -18,6 +18,7 @@ export class NavigateRoute {
     const graphList = toGraphStructure(routeSegments)
     const segmentNodes = graphList.map((item) => new Node(item))
     this.nodes = segmentNodes
+    /**将开始点作为寻路起点*/
     const index = segmentNodes.findIndex((item) => isPointEqual(item.point, startPoint))
     segmentNodes[index].cost = 0
     this.currentNode = segmentNodes[index]
@@ -117,7 +118,6 @@ export function isPointEqual(point1, point2) {
 
 interface IGraphChildren {
   id: string
-  type: number
   distance: number
 }
 
@@ -147,21 +147,21 @@ export function toGraphStructure(list: ISegment[]) {
     const endGraph = graphList.find((el) => el.id === end.id)
     if (!startGraph) {
       const point = { x: start.x, y: start.y }
-      graphList.push({ point, children: [{ id: end.id, type: 1, distance }], id: start.id })
+      graphList.push({ point, children: [{ id: end.id, distance }], id: start.id })
     } else {
       const child = startGraph.children.find((el) => isPointEqual(el.id, end))
       if (!child) {
-        startGraph.children.push({ id: end.id, type: 1, distance })
+        startGraph.children.push({ id: end.id, distance })
       }
     }
 
     if (!endGraph) {
       const point = { x: end.x, y: end.y }
-      graphList.push({ point, children: [{ id: start.id, type: 1, distance }], id: end.id })
+      graphList.push({ point, children: [{ id: start.id, distance }], id: end.id })
     } else {
       const child = endGraph.children.find((el) => isPointEqual(el.id, start))
       if (!child) {
-        endGraph.children.push({ id: start.id, type: 1, distance })
+        endGraph.children.push({ id: start.id, distance })
       }
     }
   }
