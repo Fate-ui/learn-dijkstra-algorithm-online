@@ -1,5 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'vite'
+import { buildConfig } from "./config/build";
 import { createVitePlugins } from './config/vitePlugin'
 
 export default defineConfig(({ mode }) => {
@@ -14,7 +15,8 @@ export default defineConfig(({ mode }) => {
     plugins: createVitePlugins(),
     esbuild: {
       pure: ['console.log'] // 去除console.log
-    }
+    },
+    build: buildConfig()
     // css: {
     //   preprocessorOptions: {
     //     scss: {
