@@ -1,0 +1,88 @@
+@use 'element-plus/dist/index.css';
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+}
+
+.leaflet-top.leaflet-left {
+  margin-left: 20px;
+  margin-top: 50px;
+}
+
+
+.my-div-icon {
+  display: grid !important;
+  place-items: center;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 2px 2px #eee;
+}
+
+// 涟漪特效
+.ripple {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: Ripple 1.5s ease-out 0s infinite;
+    background-color: rgba(238, 86, 86, 0.3);
+    opacity: 0;
+  }
+  @keyframes Ripple {
+    0% {
+      transform: scale(0.5);
+      opacity: 1;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+}
+
+.line-icon {
+  color: white;
+}
