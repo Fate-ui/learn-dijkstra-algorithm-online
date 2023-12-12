@@ -144,7 +144,6 @@ export function toGraphStructure(list: ISegment[]) {
     const end = item.end
     const distance = getDistance(start, end)
     const startGraph = graphList.find((el) => el.id === start.id)
-    const endGraph = graphList.find((el) => el.id === end.id)
     if (!startGraph) {
       const point = { x: start.x, y: start.y }
       graphList.push({ point, children: [{ id: end.id, distance }], id: start.id })
@@ -155,6 +154,7 @@ export function toGraphStructure(list: ISegment[]) {
       }
     }
 
+    const endGraph = graphList.find((el) => el.id === end.id)
     if (!endGraph) {
       const point = { x: end.x, y: end.y }
       graphList.push({ point, children: [{ id: start.id, distance }], id: end.id })
