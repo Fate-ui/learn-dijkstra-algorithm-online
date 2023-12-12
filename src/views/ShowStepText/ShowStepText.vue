@@ -6,6 +6,10 @@ import { useMapStore } from '@/store/map'
 const mapStore = useMapStore()
 const { timelineNodes } = storeToRefs(mapStore)
 const containerRef = shallowRef<HTMLDivElement>()
+
+/**
+ * 监听timelineNodes的变化，当timelineNodes变化时，滚动到底部
+ * */
 watch(
   timelineNodes,
   () => {
@@ -16,6 +20,9 @@ watch(
   { deep: true }
 )
 
+/**
+ * 控制左侧内容栏的显示与隐藏
+ * */
 const showBar = ref(true)
 function toggleBar() {
   showBar.value = !showBar.value

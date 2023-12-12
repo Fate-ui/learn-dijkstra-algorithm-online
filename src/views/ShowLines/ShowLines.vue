@@ -3,7 +3,7 @@ import L from 'leaflet'
 import { getDistance } from '@/views/NavigateRoute'
 import 'leaflet/dist/leaflet.css'
 import { useMapStore } from '@/store/map'
-import { lineList } from '@/views/DrawLine/segements'
+import { lineList } from '@/views/ShowLines/segements'
 
 onMounted(() => {
   init()

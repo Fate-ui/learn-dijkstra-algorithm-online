@@ -12,10 +12,11 @@ export class StepNavigateRoute {
   currentNode: Node
   closeList: Node[] = []
   path: IPoint[] = []
+
   startPoint: IPoint
   endPoint: IPoint
 
-  intersectMarkers = []
+  vertexMarkers = []
   lines: L.Polyline[] = []
   popups: L.Popup[] = []
 
@@ -47,7 +48,7 @@ export class StepNavigateRoute {
       const point = { lat: segmentNode.point.y, lng: segmentNode.point.x }
       const marker = L.marker(point, { icon: myIcon }).addTo(map)
 
-      this.intersectMarkers.push(marker)
+      this.vertexMarkers.push(marker)
       if ([16, 15].includes(index)) {
         console.log(index, segmentNode.point, segmentNode.children)
       }
@@ -73,7 +74,7 @@ export class StepNavigateRoute {
       const map = toRaw(mapStore.map) as L.Map
       const index = this.nodes.findIndex((item) => item.id === current.id)
       mapStore.timelineNodes.push({ content: `将节点${index}作为当前节点，节点代价：${current.cost}` })
-      const marker = this.intersectMarkers[index] as L.Marker
+      const marker = this.vertexMarkers[index] as L.Marker
       marker.closePopup()
       const iconElement = marker.getElement() as HTMLDivElement
       iconElement.classList.remove('ripple')
@@ -100,7 +101,7 @@ export class StepNavigateRoute {
           node.cost = cost
           node.parent = current
           const markerIndex = this.nodes.findIndex((item) => item.id === node.id)
-          const marker = this.intersectMarkers[markerIndex]
+          const marker = this.vertexMarkers[markerIndex]
           marker.closePopup()
           const iconElement = marker.getElement() as HTMLDivElement
           const popup = marker.bindPopup(`代价：${node.cost} &nbsp;&nbsp; 父节点：${index}号`, popupOptions)
@@ -147,7 +148,7 @@ export class StepNavigateRoute {
     }, okNodes[0])
 
     const markerIndex = this.nodes.findIndex((item) => item.id === minCostNode.id)
-    const marker = this.intersectMarkers[markerIndex]
+    const marker = this.vertexMarkers[markerIndex]
     const iconElement = marker.getElement() as HTMLDivElement
 
     const mapStore = useMapStore()
