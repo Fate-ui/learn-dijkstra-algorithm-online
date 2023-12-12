@@ -76,7 +76,7 @@ function confirmConfig() {
   <ShowLines />
   <div class="fixed top-20px left-1/2 -translate-x-1/2 px-12px py-6px flex items-center z-999">
     <el-button v-if="mapStore.showNextButton" type="primary" @click="next">下一步</el-button>
-    <el-button plain type="primary" @click="reset">重置</el-button>
+    <el-button plain type="primary" class="!ml-60px" @click="reset">重置</el-button>
   </div>
   <ShowStepText class="fixed top-20px left-20px z-999" />
   <div class="fixed top-20px right-20px px-12px py-6px flex items-center z-999 cursor-pointer">

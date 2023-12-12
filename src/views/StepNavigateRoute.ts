@@ -203,6 +203,8 @@ export class StepNavigateRoute {
       item.closePopup()
       item.unbindPopup()
     })
+    this.vertexMarkers.forEach((item) => item.remove())
+    this.vertexMarkers = []
     this.pathLine?.remove()
     this.popups = []
     this.nodes = []
