@@ -81,7 +81,12 @@ function confirmConfig() {
   <ShowStepText class="fixed top-20px left-20px z-999" />
   <div class="fixed top-20px right-20px px-12px py-6px flex items-center z-999 cursor-pointer">
     <el-tooltip content="配置起始点">
-      <SvgIcon name="dehaze" text="30px" @click="openConfigDialog" />
+      <SvgIcon name="dehaze" text="30px" class="mr-20px" @click="openConfigDialog" />
+    </el-tooltip>
+    <el-tooltip content="GitHub">
+      <a href="https://github.com/Fate-ui/learn-dijkstra-algorithm-online" class="text-black flex items-center" target="_blank">
+        <SvgIcon name="github" class="text-30px shrink-0 cursor-pointer" />
+      </a>
     </el-tooltip>
   </div>
   <el-dialog v-model="showConfig" title="配置" width="20vw">
