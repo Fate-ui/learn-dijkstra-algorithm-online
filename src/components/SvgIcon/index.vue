@@ -28,5 +28,6 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`)
   height: 1em;
   fill: currentColor;
   flex-shrink: 0;
+  outline: none;
 }
 </style>

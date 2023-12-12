@@ -12,6 +12,7 @@ export class StepNavigateRoute {
   currentNode: Node
   closeList: Node[] = []
   path: IPoint[] = []
+  pathLine: L.Polyline
 
   startPoint: IPoint
   endPoint: IPoint
@@ -101,6 +102,7 @@ export class StepNavigateRoute {
           node.cost = cost
           node.parent = current
           const markerIndex = this.nodes.findIndex((item) => item.id === node.id)
+          console.log(markerIndex)
           const marker = this.vertexMarkers[markerIndex]
           marker.closePopup()
           const iconElement = marker.getElement() as HTMLDivElement
@@ -161,7 +163,7 @@ export class StepNavigateRoute {
       this.popups.forEach((item) => item.closePopup())
       this.#removeLines()
       const map = toRaw(mapStore.map) as L.Map
-      L.polyline(
+      this.pathLine = L.polyline(
         path.map((el) => ({ lat: el.y, lng: el.x })),
         { color: 'red', weight: 5 }
       ).addTo(map)
@@ -193,5 +195,21 @@ export class StepNavigateRoute {
 
     path.reverse()
     return path
+  }
+
+  clear() {
+    this.#removeLines()
+    this.popups.forEach((item) => {
+      item.closePopup()
+      item.unbindPopup()
+    })
+    this.pathLine?.remove()
+    this.popups = []
+    this.nodes = []
+    this.currentNode = null
+    this.closeList = []
+    this.path = []
+    const mapStore = useMapStore()
+    mapStore.timelineNodes = []
   }
 }
