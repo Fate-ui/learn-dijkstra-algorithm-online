@@ -93,7 +93,7 @@ export class StepNavigateRoute {
             mapStore.timelineNodes.push({ content: `计算节点${tempIndex}的代价：${cost}，并将节点${tempIndex}的父节点设为节点${index}` })
           } else {
             mapStore.timelineNodes.push({
-              content: `比较节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}小），更新代价，，并将节点${tempIndex}的父节点设为节点${index}`
+              content: `再次计算节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}小），更新代价，，并将节点${tempIndex}的父节点设为节点${index}`
             })
           }
 
@@ -109,7 +109,7 @@ export class StepNavigateRoute {
           iconElement.style.backgroundColor = 'pink'
         } else {
           mapStore.timelineNodes.push({
-            content: `比较节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}大），不更新代价`
+            content: `再次计算节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}大），不更新代价`
           })
         }
 
@@ -118,7 +118,7 @@ export class StepNavigateRoute {
 
       iconElement.style.backgroundColor = '#ccc'
       this.closeList.push(current)
-      mapStore.timelineNodes.push({ content: `在遍历完周围所有的节点后将节点${index}加入关闭节点列表中，后续将不再遍历该节点` })
+      mapStore.timelineNodes.push({ content: `在遍历完当前节点周围所有的节点后将当前节点${index}加入关闭节点列表中，后续将不再遍历该节点` })
       yield
       const path = this.#foundSmallestCostRoute()
       if (path) {
