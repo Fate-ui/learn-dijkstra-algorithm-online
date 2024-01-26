@@ -102,7 +102,6 @@ export class StepNavigateRoute {
           node.cost = cost
           node.parent = current
           const markerIndex = this.nodes.findIndex((item) => item.id === node.id)
-          console.log(markerIndex)
           const marker = this.vertexMarkers[markerIndex]
           marker.closePopup()
           const iconElement = marker.getElement() as HTMLDivElement

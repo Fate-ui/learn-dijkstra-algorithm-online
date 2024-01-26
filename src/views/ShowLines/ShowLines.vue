@@ -35,7 +35,7 @@ function drawLine() {
 
 <style scoped lang="scss">
 #leaflet {
-  background-color: #99cc99;
+  background-color: #f5f5f5;
   background-image: url(@/assets/texture.png);
 }
 </style>
