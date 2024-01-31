@@ -50,9 +50,6 @@ export class StepNavigateRoute {
       const marker = L.marker(point, { icon: myIcon }).addTo(map)
 
       this.vertexMarkers.push(marker)
-      if ([16, 15].includes(index)) {
-        console.log(index, segmentNode.point, segmentNode.children)
-      }
     }
 
     this.nodes = segmentNodes

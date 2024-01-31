@@ -24,8 +24,8 @@ function drawLine() {
       [end.y, end.x]
     ] as unknown as L.LatLngExpression[][]
     const polyline = L.polyline(latLng, { color: '#3388FF' }).addTo(map)
-    const myIcon = L.divIcon({ className: 'line-icon', html: `${getDistance(start, end)}`, iconSize: [30, 30] })
-    const marker = L.marker(polyline.getCenter(), { icon: myIcon }).addTo(map)
+    const myIcon = L.divIcon({ className: 'text-gray', html: `${getDistance(start, end)}`, iconSize: [30, 30] })
+    L.marker(polyline.getCenter(), { icon: myIcon }).addTo(map)
   }
 }
 </script>
