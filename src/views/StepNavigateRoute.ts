@@ -151,18 +151,15 @@ export class StepNavigateRoute {
 
     const mapStore = useMapStore()
 
+    // 绘制当前找到的最小代价节点到起点的临时路径
+    const path = this.#drawCurrentPath(minCostNode)
+
     // 如果最小节点是终点，则找到最短路径
     if (isPointEqual(minCostNode.point, this.endPoint)) {
-      const path = this.#generatePath(minCostNode)
       this.path = path
       iconElement.style.backgroundColor = '#53e553'
       this.popups.forEach((item) => item.closePopup())
       this.#removeLines()
-      const map = toRaw(mapStore.map) as L.Map
-      this.pathLine = L.polyline(
-        path.map((el) => ({ lat: el.y, lng: el.x })),
-        { color: 'red', weight: 5 }
-      ).addTo(map)
       mapStore.timelineNodes.push({ content: `找到代价最小的节点${markerIndex}，该节点是终点，停止寻找，追溯该节点的父节点找到最短路径` })
 
       this.currentNode = null
@@ -191,6 +188,26 @@ export class StepNavigateRoute {
 
     path.reverse()
     return path
+  }
+
+  #drawCurrentPath(node: Node) {
+    // 先移除之前的临时路径线
+    this.pathLine?.remove()
+    this.pathLine = null
+
+    // 生成从当前节点到起点的路径
+    const tempPath = this.#generatePath(node)
+
+    // 在地图上绘制这条临时路径
+    const mapStore = useMapStore()
+    const map = toRaw(mapStore.map) as L.Map
+
+    this.pathLine = L.polyline(
+      tempPath.map((el) => ({ lat: el.y, lng: el.x })),
+      { color: '#53e553', weight: 5 } // 使用虚线样式
+    ).addTo(map)
+
+    return tempPath
   }
 
   clear() {
