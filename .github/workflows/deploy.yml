@@ -16,7 +16,7 @@ jobs:
 
       - name: Install pnpm
         if: steps.changed-files.outputs.only_changed != 'true'
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node
         uses: actions/setup-node@v3
