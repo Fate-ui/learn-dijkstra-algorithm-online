@@ -111,7 +111,7 @@ export class StepNavigateRoute {
           iconElement.style.backgroundColor = 'pink'
         } else {
           mapStore.timelineNodes.push({
-            content: `再次计算节点${tempIndex}的累计距离为：${cost}（大于原来的累计距离：${node.cost}），保持原距离不变`
+            content: `再次计算节点${tempIndex}的累计距离为：${cost}（大于原来的累计距离：${node.cost}），不更新距离`
           })
         }
 
