@@ -79,7 +79,6 @@ export class StepNavigateRoute {
 
       yield
 
-      marker.closePopup()
       mapStore.timelineNodes.push({ content: `遍历节点${index}的相邻节点` })
 
       yield
@@ -93,7 +92,7 @@ export class StepNavigateRoute {
         const tempIndex = this.nodes.findIndex((item) => item.id === node.id)
         if (node.cost === null || cost < node.cost) {
           if (node.cost === null) {
-            mapStore.timelineNodes.push({ content: `计算节点${tempIndex}的累计距离为：${cost}，并记录节点${tempIndex}的来源为节点${index}` })
+            mapStore.timelineNodes.push({ content: `计算从起点到节点${tempIndex}的累计距离为：${cost}，并记录节点${tempIndex}的来源为节点${index}` })
           } else {
             mapStore.timelineNodes.push({
               content: `重新计算节点${tempIndex}的累计距离为：${cost}（小于原来的累计距离：${node.cost}），更新距离值，并记录节点${tempIndex}的来源为节点${index}`
@@ -122,6 +121,8 @@ export class StepNavigateRoute {
       iconElement.style.backgroundColor = '#ccc'
       this.closeList.push(current)
       mapStore.timelineNodes.push({ content: `已遍历完节点${index}的所有相邻节点，将节点${index}标记为已关闭，不再重复访问` })
+      marker.closePopup()
+
       yield
       const path = this.#foundSmallestCostRoute()
       if (path) {
