@@ -42,7 +42,7 @@ function toggleBar() {
           {{ activity.content }}
         </el-timeline-item>
       </el-timeline>
-      <div v-if="timelineNodes.length > 1" class="text-gray" text="12px">提示：节点的代价 = 父节点的代价 + 节点间距</div>
+      <div v-if="timelineNodes.length > 1" class="text-gray" text="12px">提示：累计距离 = 父节点的累计距离 + 节点间距</div>
     </div>
     <div
       class="absolute top-6px right-0 translate-x-full z-9 grid place-items-center w-13px h-44px rounded-r-6px bg-#D8D8D8 cursor-pointer"

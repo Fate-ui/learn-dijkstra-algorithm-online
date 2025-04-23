@@ -71,12 +71,16 @@ export class StepNavigateRoute {
       const mapStore = useMapStore()
       const map = toRaw(mapStore.map) as L.Map
       const index = this.nodes.findIndex((item) => item.id === current.id)
-      mapStore.timelineNodes.push({ content: `将节点${index}作为当前节点，节点代价：${current.cost}` })
+      mapStore.timelineNodes.push({ content: `选择节点${index}为当前节点，当前累计距离：${current.cost}` })
       const marker = this.vertexMarkers[index] as L.Marker
-      marker.closePopup()
       const iconElement = marker.getElement() as HTMLDivElement
       iconElement.classList.remove('ripple')
       iconElement.style.backgroundColor = '#53e553'
+
+      yield
+
+      marker.closePopup()
+      mapStore.timelineNodes.push({ content: `遍历节点${index}的相邻节点` })
 
       yield
 
@@ -89,10 +93,10 @@ export class StepNavigateRoute {
         const tempIndex = this.nodes.findIndex((item) => item.id === node.id)
         if (node.cost === null || cost < node.cost) {
           if (node.cost === null) {
-            mapStore.timelineNodes.push({ content: `计算节点${tempIndex}的代价：${cost}，并将节点${tempIndex}的父节点设为节点${index}` })
+            mapStore.timelineNodes.push({ content: `计算节点${tempIndex}的累计距离为：${cost}，并记录节点${tempIndex}的来源为节点${index}` })
           } else {
             mapStore.timelineNodes.push({
-              content: `再次计算节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}小），更新代价，，并将节点${tempIndex}的父节点设为节点${index}`
+              content: `重新计算节点${tempIndex}的累计距离为：${cost}（小于原来的累计距离：${node.cost}），更新距离值，并记录节点${tempIndex}的来源为节点${index}`
             })
           }
 
@@ -102,13 +106,13 @@ export class StepNavigateRoute {
           const marker = this.vertexMarkers[markerIndex]
           marker.closePopup()
           const iconElement = marker.getElement() as HTMLDivElement
-          const popup = marker.bindPopup(`代价：${node.cost} &nbsp;&nbsp; 父节点：${index}号`, popupOptions)
+          const popup = marker.bindPopup(`累计距离：${node.cost} &nbsp;&nbsp; 来源：节点${index}`, popupOptions)
           this.popups.push(popup)
           popup.openPopup()
           iconElement.style.backgroundColor = 'pink'
         } else {
           mapStore.timelineNodes.push({
-            content: `再次计算节点${tempIndex}的代价：${cost}（比原来的代价：${node.cost}大），不更新代价`
+            content: `再次计算节点${tempIndex}的累计距离为：${cost}（大于原来的累计距离：${node.cost}），保持原距离不变`
           })
         }
 
@@ -117,7 +121,7 @@ export class StepNavigateRoute {
 
       iconElement.style.backgroundColor = '#ccc'
       this.closeList.push(current)
-      mapStore.timelineNodes.push({ content: `在遍历完当前节点周围所有的节点后将当前节点${index}加入关闭节点列表中，后续将不再遍历该节点` })
+      mapStore.timelineNodes.push({ content: `已遍历完节点${index}的所有相邻节点，将节点${index}标记为已关闭，不再重复访问` })
       yield
       const path = this.#foundSmallestCostRoute()
       if (path) {
@@ -160,14 +164,14 @@ export class StepNavigateRoute {
       iconElement.style.backgroundColor = '#53e553'
       this.popups.forEach((item) => item.closePopup())
       this.#removeLines()
-      mapStore.timelineNodes.push({ content: `找到代价最小的节点${markerIndex}，该节点是终点，停止寻找，追溯该节点的父节点找到最短路径` })
+      mapStore.timelineNodes.push({ content: `找到累计距离最短的节点${markerIndex}，该节点是终点，算法结束，沿着节点来源关系回溯得到最短路径` })
 
       this.currentNode = null
       mapStore.showNextButton = false
       return path
     }
 
-    mapStore.timelineNodes.push({ content: `找到代价最小的节点${markerIndex}` })
+    mapStore.timelineNodes.push({ content: `比较未关闭节点的累计距离，找到累计距离最小的节点${markerIndex}，选为下一个处理节点` })
 
     iconElement.classList.add('ripple')
     marker.closePopup()
